@@ -7,10 +7,27 @@ if [[ ! -d /data ]]; then
 fi
 
 # prometheus data
-if [[ ! -d /data/prometheus ]]; then
-  echo 'creating /data/prometheus'
-  sudo mkdir /data/prometheus
+container=prometheus
+uid=9090
+gid=9090
+if [[ ! -d /data/${container} ]]; then
+  echo -e "creating /data/${container}"
+  sudo mkdir /data/${container}
 fi
+echo -e "set ${container} permissions"
+sudo groupadd -r ${gid}
+sudo useradd -u ${uid} -g ${gid} ${gid}
+sudo chown ${uid}:${gid} -R /data/${container}
 
-# always reset permission
-sudo chown 9090:9090 -R /data/prometheus
+# grafana data
+container=grafana
+uid=104
+gid=107
+if [[ ! -d /data/${container} ]]; then
+  echo -e "creating /data/${container}"
+  sudo mkdir /data/${container}
+fi
+echo -e "set ${container} permissions"
+sudo groupadd -r ${gid}
+sudo useradd -u ${uid} -g ${gid} ${gid}
+sudo chown ${uid}:${gid} -R /data/${container}

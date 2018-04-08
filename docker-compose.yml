@@ -44,3 +44,27 @@ services:
     restart: unless-stopped
     logging:
       driver: "json-file"
+
+  prometheus_rsa:
+    image: remote_storage_adapter:latest
+    container_name: prometheus_rsa
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+    tty: true
+
+  influxdb:
+    image: influxdb:1.5.1-alpine
+    container_name: influxdb
+    environment:
+      - INFLUXDB_HTTP_LOG_ENABLED=false # turn 204 off
+      # if you don't want to see the NaN debug warnings, you have to fork the project, hard code to info or make adjustments and submit yet another pull request for this feature
+      - INFLUXDB_DATA_MAX_SERIES_PER_DATABASE=0 # default is 1000000
+    volumes:
+      - /data/influxdb/:/var/lib/influxdb/
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    logging:
+      driver: "json-file"

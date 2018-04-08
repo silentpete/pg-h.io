@@ -31,3 +31,16 @@ echo -e "set ${container} permissions"
 sudo groupadd -r ${gid}
 sudo useradd -u ${uid} -g ${gid} ${gid}
 sudo chown ${uid}:${gid} -R /data/${container}
+
+# grafana data
+container=influxdb
+uid=0
+gid=0
+if [[ ! -d /data/${container} ]]; then
+  echo -e "creating /data/${container}"
+  sudo mkdir /data/${container}
+fi
+echo -e "set ${container} permissions"
+# sudo groupadd -r ${gid}
+# sudo useradd -u ${uid} -g ${gid} ${gid}
+sudo chown ${uid}:${gid} -R /data/${container}

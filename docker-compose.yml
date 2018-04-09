@@ -4,6 +4,7 @@ services:
   nginx:
     image: nginx:1.13.10-alpine
     container_name: nginx
+    hostname: nginx
     ports:
       - 80:80
     volumes:
@@ -17,6 +18,7 @@ services:
   prometheus:
     image: prom/prometheus:v2.2.1
     container_name: prometheus
+    hostname: prometheus
     volumes:
       - $PWD/container/prometheus/:/opt/prometheus/:ro
       # keep data
@@ -36,6 +38,7 @@ services:
   grafana:
     image: grafana/grafana:5.0.4
     container_name: grafana
+    hostname: grafana
     environment:
       - GF_SERVER_ROOT_URL=http://grafana.pg-h.io
     volumes:
@@ -45,9 +48,10 @@ services:
     logging:
       driver: "json-file"
 
-  prometheus_rsa:
+  prometheus-rsa:
     image: remote_storage_adapter:latest
-    container_name: prometheus_rsa
+    container_name: prometheus-rsa
+    hostname: prometheus-rsa
     volumes:
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
@@ -58,6 +62,7 @@ services:
   influxdb:
     image: influxdb:1.5.1-alpine
     container_name: influxdb
+    hostname: influxdb
     environment:
       - INFLUXDB_HTTP_LOG_ENABLED=false # turn 204 off
       # if you don't want to see the NaN debug warnings, you have to fork the project, hard code to info or make adjustments and submit yet another pull request for this feature

@@ -11,7 +11,7 @@ scrape_configs:
       - targets: ['localhost:9090']
   - job_name: 'prometheusRemoteStorageAdapter'
     static_configs:
-      - targets: ['prometheus_rsa:9201']
+      - targets: ['prometheus-rsa:9201']
 
 remote_write:
-  - url: "http://prometheus_rsa:9201/write"
+  - url: "http://prometheus-rsa:9201/write"

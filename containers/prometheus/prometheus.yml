@@ -8,10 +8,19 @@ rule_files:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
-  - job_name: 'prometheusRemoteStorageAdapter'
+      - targets: ['prometheus:9090']
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['prometheus:9100']
+
+  - job_name: 'prom-rsa'
     static_configs:
       - targets: ['prometheus-rsa:9201']
+
+  - job_name: 'influx'
+    static_configs:
+      - targets: ['influxdb:8086']
 
 remote_write:
   - url: "http://prometheus-rsa:9201/write"

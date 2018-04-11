@@ -1,5 +1,21 @@
+20180410
+- add git ignore file
+- add prometheus node exporter
+- rename container to containers
+- add services folder
+
+20180408
+- add InfluxDB
+- add blog post 2
+
+20180404
+- fix UTF charset
+
+20180402
+- add grafana
+
 20180401
-- add blog
+- add blog post 1
 
 20180331
 - convert to nginx front

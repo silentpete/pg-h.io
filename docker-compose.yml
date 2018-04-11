@@ -8,8 +8,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - $PWD/container/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - $PWD/container/nginx/data/www/:/opt/nginx/data/www/:ro
+      - $PWD/containers/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - $PWD/containers/nginx/data/www/:/opt/nginx/data/www/:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     logging:
@@ -20,7 +20,7 @@ services:
     container_name: prometheus
     hostname: prometheus
     volumes:
-      - $PWD/container/prometheus/:/opt/prometheus/:ro
+      - $PWD/containers/prometheus/:/opt/prometheus/:ro
       # keep data
       - /data/prometheus/:/prometheus/data/:rw
       - /etc/localtime:/etc/localtime:ro
@@ -41,6 +41,7 @@ services:
     hostname: grafana
     environment:
       - GF_SERVER_ROOT_URL=http://grafana.pg-h.io
+      - GF_AUTH_ANONYMOUS_ENABLED=true
     volumes:
       - /data/grafana/:/var/lib/grafana/:rw
       - /etc/localtime:/etc/localtime:ro

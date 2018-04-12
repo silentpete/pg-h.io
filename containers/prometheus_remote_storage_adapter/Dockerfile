@@ -27,7 +27,7 @@ RUN \
   && rm -rf /var/cache/apk/* \
   && chmod 0750 *
 
-COPY setup.sh /opt/setup.sh
+COPY /root_d/setup.sh /opt/setup.sh
 
 EXPOSE 9201
 

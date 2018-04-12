@@ -1,3 +1,7 @@
+20180411
+- add prep start stop scripts
+- adjust environment to be able to handle prep/start/stop processes
+
 20180410
 - add git ignore file
 - add prometheus node exporter

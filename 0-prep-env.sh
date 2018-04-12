@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# TODO: remove repeated function into function file and source the file
 function info () {
   echo -e "\e[32mINFO: $1\e[0m"
 }
@@ -23,6 +24,7 @@ if [[ ! -d "${data_storage_path}" ]]; then
   sudo mkdir "${data_storage_path}"
 fi
 
+# Each container could be wrapped in a sourced function
 # prometheus data
 container="prometheus"
 c_data_path="${data_storage_path}/${container}"

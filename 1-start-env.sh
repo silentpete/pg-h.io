@@ -1,4 +1,6 @@
 #!/bin/sh
+
+# TODO: remove repeated function into function file and source the file
 function info () {
   echo -e "\e[32mINFO: $1\e[0m"
 }

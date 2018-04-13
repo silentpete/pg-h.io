@@ -30,9 +30,11 @@ services:
       - '--log.level=info'
       # prometheus retention period
       - '--storage.tsdb.retention=30d'
-    restart: unless-stopped
     logging:
       driver: "json-file"
+    mem_limit: 512m
+    memswap_limit: 512m
+    restart: unless-stopped
     user: 9090:9090
 
   grafana:
@@ -67,10 +69,12 @@ services:
     environment:
       - INFLUXDB_HTTP_LOG_ENABLED=false # turn 204 off
       # if you don't want to see the NaN debug warnings, you have to fork the project, hard code to info or make adjustments and submit yet another pull request for this feature
-      - INFLUXDB_DATA_MAX_SERIES_PER_DATABASE=0 # default is 1000000
+      # - INFLUXDB_DATA_MAX_SERIES_PER_DATABASE=0 # default is 1000000
     volumes:
       - /data/influxdb/:/var/lib/influxdb/
       - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
     logging:
       driver: "json-file"
+    mem_limit: 512m
+    memswap_limit: 512m
+    restart: unless-stopped

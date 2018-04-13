@@ -1,2 +1,3 @@
-services/prometheus_node_exporter/pid
-services/prometheus_node_exporter/prometheus_node_exporter
+services/*/cadvisor
+services/*/pid
+services/*/prometheus_node_exporter

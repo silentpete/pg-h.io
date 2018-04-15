@@ -7,11 +7,16 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
 
 	"github.com/russross/blackfriday"
 )
+
+// err, create an error variable for the blog scope
+var err error
+var blogCount = 0
 
 // Post structure
 // this should match the posts lines
@@ -23,22 +28,42 @@ type Post struct {
 	File    string
 }
 
+var tmplMetrics = `<html>
+<head>
+<title>metrics</title>
+</head>
+<body>
+{{ . }}
+</body>
+</html>
+`
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path[1:] == "" {
+		fmt.Println(r.URL.Path[1:])
 		posts := getPosts()
-		t := template.New("index.tmpl.html")
-		t, err := t.ParseFiles("index.tmpl.html")
+		tmpl := template.New("index.tmpl.html")
+		tmpl, err = tmpl.ParseFiles("index.tmpl.html")
 		if err != nil {
 			fmt.Println("ERROR:", err)
 		}
-		t.Execute(w, posts)
+		tmpl.Execute(w, posts)
+		blogCount++
+	} else if r.URL.Path[1:] == "metrics" {
+		metrics := fmt.Sprintf("#HELP pghio_blog_hits_count_total counter used for number of click on blog site<br>#TYPE pghio_blog_hits_count_total count<br>pghio_blog_hits_count_total=%v", blogCount)
+		tmpl := template.New("metrics")
+		tmpl, err = tmpl.Parse(tmplMetrics)
+		if err != nil {
+			fmt.Println("ERROR:", err)
+		}
+		tmpl.Execute(w, metrics)
 	} else {
-		f := "posts/" + r.URL.Path[1:] + ".md"
-		fileread, err := ioutil.ReadFile(f)
+		file := "posts/" + r.URL.Path[1:] + ".md"
+		fileContents, err := ioutil.ReadFile(file)
 		if err != nil {
 			fmt.Println("ERROR:", err)
 		}
-		lines := strings.Split(string(fileread), "\n")
+		lines := strings.Split(string(fileContents), "\n")
 		title := string(lines[0])
 		date := string(lines[1])
 		summary := string(lines[2])
@@ -51,26 +76,31 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("ERROR:", err)
 		}
 		t.Execute(w, post)
+		blogCount++
 	}
 }
 
 func getPosts() []Post {
 	a := []Post{}
 	files, err := filepath.Glob("posts/*.md")
+	sort.Sort(sort.Reverse(sort.StringSlice(files)))
 	if err != nil {
 		fmt.Println("ERROR:", err)
 	}
 	for _, f := range files {
-		file := strings.Replace(f, "posts/", "", -1)
-		file = strings.Replace(file, ".md", "", -1)
-		fileread, _ := ioutil.ReadFile(f)
+		filename := strings.Replace(f, "posts/", "", -1)
+		filename = strings.Replace(filename, ".md", "", -1)
+		fileread, err := ioutil.ReadFile(f)
+		if err != nil {
+			fmt.Println("ERROR:", err)
+		}
 		lines := strings.Split(string(fileread), "\n")
 		title := string(lines[0])
 		date := string(lines[1])
 		summary := string(lines[2])
 		body := strings.Join(lines[3:len(lines)], "\n")
 		body = string(blackfriday.MarkdownCommon([]byte(body)))
-		a = append(a, Post{title, date, summary, body, file})
+		a = append(a, Post{title, date, summary, body, filename})
 	}
 	return a
 }

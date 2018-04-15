@@ -1,3 +1,8 @@
+20180415
+- update blog to sort descending
+- add initial attempt at a metrics page, need to do more research
+- update variable names for readability while I keep learning Go
+
 20180414
 - remove the cadvisor build comments from the dockerfile
 - build a blog container to house the blog post

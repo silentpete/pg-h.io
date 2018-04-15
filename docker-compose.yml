@@ -15,6 +15,14 @@ services:
     logging:
       driver: "json-file"
 
+  blog:
+    image: blog:latest
+    container_name: blog
+    hostname: blog
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+
   prometheus:
     image: prom/prometheus:v2.2.1
     container_name: prometheus

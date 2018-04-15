@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>pg --blog</title>
+  </head>
+  <body>
+    <h1>Blog Posts</h1>
+    {{range .}}
+      <a href="/{{.File}}"><h2>{{.Title}} ({{.Date}})</h2></a>
+      <p>{{.Summary}}</p>
+    {{end}}
+  </body>
+</html>

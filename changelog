@@ -1,3 +1,10 @@
+20180414
+- remove the cadvisor build comments from the dockerfile
+- build a blog container to house the blog post
+- convert HTML pages to Markdown
+- adjust nginx to look at the blog container
+- add the blog container to the compose file
+
 20180413
 - adjust gitignore to not pull in pid and binary for cadvisor
 - adjust nginx to have all metric enpoints

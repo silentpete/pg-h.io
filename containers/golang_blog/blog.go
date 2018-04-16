@@ -28,19 +28,10 @@ type Post struct {
 	File    string
 }
 
-var tmplMetrics = `<html>
-<head>
-<title>metrics</title>
-</head>
-<body>
-{{ . }}
-</body>
-</html>
-`
+var tmplMetrics = `{{ . }}`
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path[1:] == "" {
-		fmt.Println(r.URL.Path[1:])
 		posts := getPosts()
 		tmpl := template.New("index.tmpl.html")
 		tmpl, err = tmpl.ParseFiles("index.tmpl.html")
@@ -50,7 +41,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, posts)
 		blogCount++
 	} else if r.URL.Path[1:] == "metrics" {
-		metrics := fmt.Sprintf("#HELP pghio_blog_hits_count_total counter used for number of click on blog site<br>#TYPE pghio_blog_hits_count_total count<br>pghio_blog_hits_count_total=%v", blogCount)
+		metrics := fmt.Sprintf("pghio_blog_hits_count_total=%v", blogCount)
 		tmpl := template.New("metrics")
 		tmpl, err = tmpl.Parse(tmplMetrics)
 		if err != nil {

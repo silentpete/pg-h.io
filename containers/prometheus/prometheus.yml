@@ -13,6 +13,10 @@ scrape_configs:
     static_configs:
       - targets: ['prometheus-rsa:9201']
 
+  - job_name: 'blog'
+    static_configs:
+      - targets: ['blog:8000']
+
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['pg-h.io:8181']

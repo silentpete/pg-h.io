@@ -41,7 +41,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, posts)
 		blogCount++
 	} else if r.URL.Path[1:] == "metrics" {
-		metrics := fmt.Sprintf("pghio_blog_hits_count_total=%v", blogCount)
+		metrics := fmt.Sprintf("pghio_blog_hits_count_total %v", blogCount)
 		tmpl := template.New("metrics")
 		tmpl, err = tmpl.Parse(tmplMetrics)
 		if err != nil {

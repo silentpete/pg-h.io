@@ -2,7 +2,7 @@ version: '2'
 
 services:
   nginx:
-    image: nginx:1.13.10-alpine
+    image: nginx:1.13.12-alpine
     container_name: nginx
     hostname: nginx
     ports:
@@ -71,7 +71,7 @@ services:
     tty: true
 
   influxdb:
-    image: influxdb:1.5.1-alpine
+    image: influxdb:1.5.2-alpine
     container_name: influxdb
     hostname: influxdb
     environment:

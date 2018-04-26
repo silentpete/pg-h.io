@@ -99,5 +99,5 @@ func getPosts() []Post {
 func main() {
 	fmt.Println("Starting Blog")
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":80", nil)
 }

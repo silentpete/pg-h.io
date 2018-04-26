@@ -1,3 +1,10 @@
+20180425
+- change the port of blog to 80
+- volume mount in posts dir
+- add pghio container
+- adjust the nginx container for the blog and pg-h.io landing
+- add new container to the compose file
+
 20180415
 - update blog to sort descending
 - add initial attempt at a metrics page, need to do more research

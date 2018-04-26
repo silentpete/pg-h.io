@@ -9,7 +9,17 @@ services:
       - 80:80
     volumes:
       - $PWD/containers/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - $PWD/containers/nginx/data/www/:/opt/nginx/data/www/:ro
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+
+  pghio:
+    image: pghio:latest
+    container_name: pghio
+    hostname: pghio
+    volumes:
+      - $PWD/containers/golang_pghio/index.html:/opt/pghio/index.html:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     logging:
@@ -19,6 +29,9 @@ services:
     image: blog:latest
     container_name: blog
     hostname: blog
+    volumes:
+      - $PWD/containers/golang_blog/posts/:/opt/blog/posts/:ro
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     logging:
       driver: "json-file"

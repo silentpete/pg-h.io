@@ -42,8 +42,8 @@ sudo chown ${uid}:${gid} -R "${c_data_path}"
 # grafana data
 container="grafana"
 c_data_path="${data_storage_path}/${container}"
-uid=104
-gid=107
+uid=472 # 5.1.0 change to running as 472:472
+gid=472
 if [[ ! -d "${c_data_path}" ]]; then
   info "creating ${c_data_path}"
   sudo mkdir "${c_data_path}"
@@ -53,7 +53,7 @@ sudo groupadd -r ${gid}
 sudo useradd -u ${uid} -g ${gid} ${gid}
 sudo chown ${uid}:${gid} -R "${c_data_path}"
 
-# grafana data
+# influxdb data
 container="influxdb"
 c_data_path="${data_storage_path}/${container}"
 uid=0

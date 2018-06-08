@@ -34,9 +34,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path[1:] == "" {
 		posts := getPosts()
 		tmpl := template.New("index.tmpl.html")
-		tmpl, err = tmpl.ParseFiles("index.tmpl.html")
+		tmpl, err = tmpl.ParseFiles("tmpl/index.tmpl.html")
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("ERROR: handler tmpl.ParseFiles", err)
 		}
 		tmpl.Execute(w, posts)
 		blogCount++
@@ -45,14 +45,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.New("metrics")
 		tmpl, err = tmpl.Parse(tmplMetrics)
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("ERROR: handler tmpl.Parse", err)
 		}
 		tmpl.Execute(w, metrics)
+	} else if r.URL.Path[1:] == "favicon.ico" {
+		http.ServeFile(w, r, "imgs/favicon.ico")
 	} else {
 		file := "posts/" + r.URL.Path[1:] + ".md"
 		fileContents, err := ioutil.ReadFile(file)
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("ERROR: handler ioutil.ReadFile", err)
 		}
 		lines := strings.Split(string(fileContents), "\n")
 		title := string(lines[0])
@@ -62,9 +64,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		body = string(blackfriday.Run([]byte(body)))
 		post := Post{title, date, summary, body, r.URL.Path[1:]}
 		t := template.New("post.tmpl.html")
-		t, err = t.ParseFiles("post.tmpl.html")
+		t, err = t.ParseFiles("tmpl/post.tmpl.html")
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("ERROR: t.ParseFiles", err)
 		}
 		t.Execute(w, post)
 		blogCount++
@@ -76,14 +78,14 @@ func getPosts() []Post {
 	files, err := filepath.Glob("posts/*.md")
 	sort.Sort(sort.Reverse(sort.StringSlice(files)))
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("ERROR: getPosts filepath.Glob", err)
 	}
 	for _, f := range files {
 		filename := strings.Replace(f, "posts/", "", -1)
 		filename = strings.Replace(filename, ".md", "", -1)
 		fileread, err := ioutil.ReadFile(f)
 		if err != nil {
-			fmt.Println("ERROR:", err)
+			fmt.Println("ERROR: getPosts ioutil.ReadFile", err)
 		}
 		lines := strings.Split(string(fileread), "\n")
 		title := string(lines[0])

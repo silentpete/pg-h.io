@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>pg --blog</title>
+  </head>
+  <style>
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space: pre-wrap;
+      background-color:lightgray;
+      padding: 1em;
+    }
+    article {
+      margin-left: 10%;
+      margin-right: 10%;
+      padding: 1em;
+      overflow: hidden;
+    }
+    footer {
+      padding: 1em;
+  }
+  </style>
+  <body>
+    <article>
+      <h2>{{.Title}}</h2>
+      <h3>{{.Date}}</h3>
+      <p>{{.Body}}</p>
+      <footer><a href=http://blog.pg-h.io>Back</a></footer>
+    </article>
+  </body>
+</html>

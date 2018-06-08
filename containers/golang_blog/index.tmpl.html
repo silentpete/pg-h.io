@@ -2,11 +2,26 @@
   <head>
     <title>pg --blog</title>
   </head>
-  <body>
-    <h1>Blog Posts</h1>
-    {{range .}}
-      <a href="/{{.File}}"><h2>{{.Title}} ({{.Date}})</h2></a>
-      <p>{{.Summary}}</p>
-    {{end}}
+  <style>
+    article {
+      margin-left: 10%;
+      margin-right: 10%;
+      padding: 1em;
+      overflow: hidden;
+      text-align: center;
+    }
+
+  </style>
+
+  <body link="black" vlink="black">
+    <article>
+      {{range .}}
+        <a href="/{{.File}}"><h2>{{.Title}}</h2></a>
+        ({{.Date}})
+        <hr>
+        <p>{{.Summary}}</p>
+        <br><br>
+      {{end}}
+    </article>
   </body>
 </html>

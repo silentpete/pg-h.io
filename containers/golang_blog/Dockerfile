@@ -7,7 +7,7 @@ RUN \
   && apk add git
 
 # get the markdown parser
-RUN go get -v github.com/russross/blackfriday
+RUN go get -v gopkg.in/russross/blackfriday.v2
 
 COPY $PWD /go/src/blog
 

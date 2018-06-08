@@ -11,7 +11,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/russross/blackfriday"
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 // err, create an error variable for the blog scope
@@ -59,7 +59,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		date := string(lines[1])
 		summary := string(lines[2])
 		body := strings.Join(lines[3:len(lines)], "\n")
-		body = string(blackfriday.MarkdownCommon([]byte(body)))
+		body = string(blackfriday.Run([]byte(body)))
 		post := Post{title, date, summary, body, r.URL.Path[1:]}
 		t := template.New("post.tmpl.html")
 		t, err = t.ParseFiles("post.tmpl.html")
@@ -90,7 +90,7 @@ func getPosts() []Post {
 		date := string(lines[1])
 		summary := string(lines[2])
 		body := strings.Join(lines[3:len(lines)], "\n")
-		body = string(blackfriday.MarkdownCommon([]byte(body)))
+		body = string(blackfriday.Run([]byte(body)))
 		a = append(a, Post{title, date, summary, body, filename})
 	}
 	return a

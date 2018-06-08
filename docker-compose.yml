@@ -19,7 +19,8 @@ services:
     container_name: pghio
     hostname: pghio
     volumes:
-      - $PWD/containers/golang_pghio/index.html:/opt/pghio/index.html:ro
+      - $PWD/containers/golang_pghio/html/:/opt/pghio/html/:ro
+      - $PWD/containers/golang_pghio/imgs/:/opt/pghio/imgs/:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     logging:

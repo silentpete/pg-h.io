@@ -11,6 +11,7 @@ var pghioHitCount = 0
 
 func main() {
 	fmt.Println("Starting pg-h.io")
+	http.HandleFunc("/favicon.ico", favicon)
 	http.HandleFunc("/", pghio)
 	http.HandleFunc("/metrics", metrics)
 	http.ListenAndServe(":80", nil)
@@ -18,9 +19,9 @@ func main() {
 
 func pghio(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.New("index.html")
-	tmpl, err = tmpl.ParseFiles("index.html")
+	tmpl, err = tmpl.ParseFiles("html/index.html")
 	if err != nil {
-		fmt.Println("ERROR:", err)
+		fmt.Println("ERROR: pghio tmpl.ParseFiles", err)
 	}
 	tmpl.Execute(w, "")
 	pghioHitCount++
@@ -29,4 +30,8 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 func metrics(w http.ResponseWriter, r *http.Request) {
 	m := fmt.Sprintf("pghio_hit_count_total %v", pghioHitCount)
 	fmt.Fprintf(w, m)
+}
+
+func favicon(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "imgs/favicon.ico")
 }

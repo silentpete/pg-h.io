@@ -6,7 +6,6 @@ import (
 	"net/http"
 )
 
-var err error
 var pghioHitCount = 0
 
 func main() {
@@ -19,7 +18,7 @@ func main() {
 
 func pghio(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.New("index.html")
-	tmpl, err = tmpl.ParseFiles("html/index.html")
+	tmpl, err := tmpl.ParseFiles("html/index.html")
 	if err != nil {
 		fmt.Println("ERROR: pghio tmpl.ParseFiles", err)
 	}

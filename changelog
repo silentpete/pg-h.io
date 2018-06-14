@@ -1,3 +1,25 @@
+20180611
+- allow robots on blog and blog posts
+
+20180609
+- fix mobile viewing
+
+20180608
+- adjust names of blog posts #2
+- adjust blog landing layout #3
+- add pre code block color #1
+- update blackfriday to v2 #7
+- move templates to their own folder #6
+- add favicon.ico's #6
+- add error output notes #6
+- change to mounting in directories #6
+- move index.html to folder #4
+- volume mount dirs #4
+- add metrics landing to pghio #4
+
+20180428
+- grafana update
+
 20180425
 - change the port of blog to 80
 - volume mount in posts dir

@@ -1,5 +1,7 @@
 // REFERENCED: http://www.will3942.com/creating-blog-go
 // the gists are missing instantiation for the f and post in the else block, add ":" to each
+
+// Package blog is an http server hosting the blog area of pg-h.io.
 package main
 
 import (
@@ -73,6 +75,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// getPosts creates and returns a slice of Posts from md files under the posts directory.
 func getPosts() []Post {
 	a := []Post{}
 	files, err := filepath.Glob("posts/*.md")

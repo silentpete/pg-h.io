@@ -2,7 +2,7 @@ version: '2'
 
 services:
   nginx:
-    image: nginx:1.13.12-alpine
+    image: nginx:1.13-alpine
     container_name: nginx
     hostname: nginx
     ports:
@@ -40,7 +40,7 @@ services:
       driver: "json-file"
 
   prometheus:
-    image: prom/prometheus:v2.2.1
+    image: prom/prometheus:v2.3.1
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -62,7 +62,7 @@ services:
     user: 9090:9090
 
   grafana:
-    image: grafana/grafana:5.1.0
+    image: grafana/grafana:5.2.0
     container_name: grafana
     hostname: grafana
     environment:
@@ -87,7 +87,7 @@ services:
     tty: true
 
   influxdb:
-    image: influxdb:1.5.2-alpine
+    image: influxdb:1.5.4-alpine
     container_name: influxdb
     hostname: influxdb
     environment:

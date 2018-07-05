@@ -26,7 +26,15 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		}
 		tmpl.Execute(w, "")
 		pghioHitCount++
-		log.Println(r.RemoteAddr, "requested", r.RequestURI)
+		// comes through the proxy, print IP proxied
+		if len(r.Header["X-Real-Ip"]) > 0 {
+			for _,v := range r.Header["X-Real-Ip"] {
+				log.Println(v, "requested" , r.RequestURI)
+			}
+		} else {
+			// doesn't come through the proxy
+			log.Println(r.RemoteAddr, "requested", r.RequestURI)
+		}
 	}
 	if r.Method == "POST" {
 		r.ParseForm() // need to parse the form before interacting with form data

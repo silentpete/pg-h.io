@@ -28,8 +28,8 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		pghioHitCount++
 		// comes through the proxy, print IP proxied
 		if len(r.Header["X-Real-Ip"]) > 0 {
-			for _,v := range r.Header["X-Real-Ip"] {
-				log.Println(v, "requested" , r.RequestURI)
+			for _, ip := range r.Header["X-Real-Ip"] {
+				log.Println(ip, "requested" , r.RequestURI)
 			}
 		} else {
 			// doesn't come through the proxy
@@ -38,35 +38,48 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.Method == "POST" {
 		r.ParseForm() // need to parse the form before interacting with form data
-		text := r.Form["text"]
-		switch text[0] {
+		text := (r.Form["text"])[0]
+		switch text {
 		case "pg --blog":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://blog.pg-h.io/", http.StatusFound)
 		case "pg --blog-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://blog.pg-h.io/metrics", http.StatusFound)
 		case "pg --github":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "https://github.com/silentpete", http.StatusFound)
 		case "pg --grafana":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://grafana.pg-h.io/", http.StatusFound)
 		case "pg --grafana-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://grafana.pg-h.io/metrics", http.StatusFound)
 		case "pg --help":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "/", http.StatusFound)
 		case "pg -h":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "/", http.StatusFound)
 		case "pg --prometheus":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://prometheus.pg-h.io/", http.StatusFound)
 		case "pg --prometheus-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://prometheus.pg-h.io/metrics", http.StatusFound)
 		case "pg --resume":
+			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "https://www.linkedin.com/in/petegallerani/", http.StatusFound)
 		default:
+			log.Printf("failed POST: \"%v\"\n", text)
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	}
 }
 
 func metrics(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "# HELP pghio_hit_count_total Total number of web requests to http://pg-h.io/")
+	fmt.Fprintln(w, "# TYPE pghio_hit_count_total counter")
 	m := fmt.Sprintf("pghio_hit_count_total %v", pghioHitCount)
 	fmt.Fprintf(w, m)
 }

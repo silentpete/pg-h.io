@@ -37,6 +37,12 @@ scrape_configs:
     static_configs:
       - targets: ['influxdb:8086']
 
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093
+
 remote_write:
   - url: "http://prometheus-rsa:9201/write"
     write_relabel_configs:

@@ -1,3 +1,4 @@
 services/*/cadvisor
 services/*/pid
 services/*/prometheus_node_exporter
+*gmail_creds

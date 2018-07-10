@@ -61,6 +61,20 @@ services:
     restart: unless-stopped
     user: 9090:9090
 
+  alertmanager:
+    image: prom/alertmanager:v0.15.0
+    container_name: alertmanager
+    hostname: alertmanager
+    volumes:
+      - $PWD/containers/alertmanager/:/opt/alertmanager/:rw
+      - /etc/localtime:/etc/localtime:ro
+    command:
+      - '--config.file=/opt/alertmanager/alertmanager.yml'
+      - '--log.level=debug'
+    logging:
+      driver: "json-file"
+    restart: unless-stopped
+
   grafana:
     image: grafana/grafana:5.2.0
     container_name: grafana

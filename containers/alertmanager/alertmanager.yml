@@ -1,0 +1,23 @@
+global:
+
+route:
+  receiver: email-me
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+
+receivers:
+- name: 'email-me'
+  email_configs:
+  - to: 'REPLACE_W_GMAIL_ACCOUNT'
+    from: 'REPLACE_W_GMAIL_ACCOUNT'
+    smarthost: 'REPLACE_W_GMAIL_SMTP_SERVER'
+    auth_username: 'REPLACE_W_GMAIL_ACCOUNT'
+    auth_identity: 'REPLACE_W_GMAIL_ACCOUNT'
+    auth_password: 'REPLACE_W_GMAIL_APP_PASSWORD'
+
+# Reference
+# - https://www.robustperception.io/sending-email-with-the-alertmanager-via-gmail/
+# - https://support.google.com/accounts/answer/185833?hl=en
+# - https://hub.docker.com/r/prom/alertmanager/

@@ -29,7 +29,7 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		// comes through the proxy, print IP proxied
 		if len(r.Header["X-Real-Ip"]) > 0 {
 			for _, ip := range r.Header["X-Real-Ip"] {
-				log.Println(ip, "requested" , r.RequestURI)
+				log.Println(ip, "requested", r.RequestURI)
 			}
 		} else {
 			// doesn't come through the proxy
@@ -70,6 +70,9 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		case "pg --resume":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "https://www.linkedin.com/in/petegallerani/", http.StatusFound)
+		case "pg --site-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://pg-h.io/metrics", http.StatusFound)
 		default:
 			log.Printf("failed POST: \"%v\"\n", text)
 			http.Redirect(w, r, "/", http.StatusFound)

@@ -40,6 +40,12 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm() // need to parse the form before interacting with form data
 		text := (r.Form["text"])[0]
 		switch text {
+		case "pg --alertmanager":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://alertmanager.pg-h.io/", http.StatusFound)
+		case "pg --alertmanager-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://alertmanager.pg-h.io/metrics", http.StatusFound)
 		case "pg --blog":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://blog.pg-h.io/", http.StatusFound)

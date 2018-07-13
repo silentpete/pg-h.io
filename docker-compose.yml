@@ -40,7 +40,7 @@ services:
       driver: "json-file"
 
   prometheus:
-    image: prom/prometheus:v2.3.1
+    image: prom/prometheus:v2.3.2
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -62,7 +62,7 @@ services:
     user: 9090:9090
 
   alertmanager:
-    image: prom/alertmanager:v0.15.0
+    image: prom/alertmanager:v0.15.1
     container_name: alertmanager
     hostname: alertmanager
     volumes:
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:5.2.0
+    image: grafana/grafana:5.2.1
     container_name: grafana
     hostname: grafana
     environment:
@@ -101,7 +101,7 @@ services:
     tty: true
 
   influxdb:
-    image: influxdb:1.5.4-alpine
+    image: influxdb:1.6.0-alpine
     container_name: influxdb
     hostname: influxdb
     environment:

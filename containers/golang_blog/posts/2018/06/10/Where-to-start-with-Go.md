@@ -1,6 +1,5 @@
-Where to start with Go
-June 10th, 2018
 A collection of good places to start with for learning Go, referencing Go, and self-reminders.
+
 Official language name: Go
 
 Official website: [https://golang.org/](https://golang.org/)

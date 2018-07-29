@@ -1,6 +1,5 @@
-Prometheus Alertmanager Webhook (Sinatra App to Go App)
-June 24, 2018
 I converted a simple Prometheus Alertmanager webhook container to run a Go app instead of a Ruby (Sinatra) app.
+
 # Prometheus - Alertmanager Webhook
 
 We use Prometheus to collect metrics. Prometheus can have alerting configured, which is co-managed with Alertmanager. Alertmanager has the ability to send json to a web endpoint ([https://prometheus.io/docs/alerting/configuration/#%3Cwebhook_config%3E](https://prometheus.io/docs/alerting/configuration/#%3Cwebhook_config%3E)). The web endpoint can do stuff based on the information in the json.

@@ -1,6 +1,5 @@
-Go HTTP Server with Graceful Shutdown Example
-July 1, 2018
 Go's examples of an http server usually do not exit gracefully, so I created a hello world that will exit 0.
+
 # GoLang HTTP Graceful Shutdown
 
 From the examples I have come across online, they usually don't shutdown correctly (return exit code 0). I wanted to get some more experience and learn how to shutdown correctly. I did find examples online, but they also usually lack commenting for newbs.

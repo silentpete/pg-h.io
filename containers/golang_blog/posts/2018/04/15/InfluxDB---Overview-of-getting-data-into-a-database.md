@@ -1,7 +1,6 @@
-InfluxDB - Overview of getting data into the database.
-April 15, 2018
 I was excited to see a new question I think I could help answer on the community message board, so I gave answering it a shot. I ended up getting a "thank you", yeay!
-## Writing data to influxdb using the API example
+
+# Writing data to influxdb using the API example
 
 Getting data into a InfluxDB is fairly straight forward. Use the API, give it a metric name, some key/value pairs, and a value. The problems come usually when a system gives you a string and having to format that string to get into a desired state.
 

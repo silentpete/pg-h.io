@@ -1,6 +1,5 @@
-COS Gophers
-April 29, 2018
 A Meetup Organizer!
+
 # Founded Apr 27, 2018
 
 So with this whole website, finding Go, trying to push myself and help anyone and everyone interested in tech... I've decided to start a Colorado Springs golang Meetup. I have a friend of mine that is going to co-host with me and a fellow co-worker interested in this journey.

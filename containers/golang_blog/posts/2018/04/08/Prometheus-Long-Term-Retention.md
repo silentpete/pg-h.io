@@ -1,6 +1,5 @@
-Prometheus Long Term Retention
-April 8, 2018
 A simple overview of keeping prometheus data for longer than the default 15 days.
+
 ## Prometheus long term retention
 
 By default, Prometheus time series database (TSDB) is set to keep its collection of data for 15 days[^1].

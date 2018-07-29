@@ -1,6 +1,5 @@
-Greater Commons - Learn Go - Completed
-June 17, 2018
 Go programming joyful moment.
+
 # Success
 
 So I finally finished going through the whole `Learn How To Code: Google’s Go (golang) Programming Language` course. I'm pretty happy as I do feel accomplished about sticking through it and finishing it. I have a much better understanding of the language. Thank you Todd!

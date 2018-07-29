@@ -1,6 +1,5 @@
-SonarQube my Go
-May 13, 2018
 Use SonarQube to scan your Go code and see problems you didn't know where there.
+
 # SonarQube
 
 So I went to a meetup ([https://www.meetup.com/csopensource/events/249159179/](https://www.meetup.com/csopensource/events/249159179/)) and there was a presentation on SonarQube. Bill Lyons showed how he incorporated SonarQube into his teams' work flow and lower the amount of code quality issues from 40k down to 0.

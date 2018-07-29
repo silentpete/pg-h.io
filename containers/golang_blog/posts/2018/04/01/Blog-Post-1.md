@@ -1,6 +1,5 @@
-Blog Post 1
-April 1, 2018
 The start to a beautiful thing... a blog.
+
 # Just put it out there...
 
 After being a consumer of the internet for so long, thinking to myself I have nothing to offer… but! recently I have been told otherwise. I have listened to, or read, podcasts, books, articles and the random assortment of daily internet content, which says just put it out there and try to help others. So… maybe I'll find an audience that will find something I put out there beneficial.

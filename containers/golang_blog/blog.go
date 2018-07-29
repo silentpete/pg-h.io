@@ -41,7 +41,7 @@ func main() {
 
 	log.Println("Starting Blog")
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":6060", nil)
+	http.ListenAndServe(":80", nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {

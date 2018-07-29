@@ -2,7 +2,7 @@ version: '2'
 
 services:
   nginx:
-    image: nginx:1.13-alpine
+    image: nginx:1.15.2-alpine
     container_name: nginx
     hostname: nginx
     ports:
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:5.2.1
+    image: grafana/grafana:5.2.2
     container_name: grafana
     hostname: grafana
     environment:

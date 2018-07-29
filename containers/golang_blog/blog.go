@@ -11,18 +11,21 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
+	"sort"
 	"strings"
 	"text/template"
 
 	"gopkg.in/russross/blackfriday.v2"
 )
 
-// err, create an error variable for the blog scope
+// blog scope variables
+// TODO: add debug switch
 var err error
-var blogCount = 0
+var blogCount int
+var runtimeOS string
 
 // Post structure
-// this should match the posts lines
 type Post struct {
 	Title   string
 	Date    string
@@ -32,12 +35,13 @@ type Post struct {
 	Address string
 }
 
-var tmplMetrics = `{{ . }}`
-
 func main() {
-	fmt.Println("Starting Blog")
+	// check environment OS
+	runtimeOS = runtime.GOOS
+
+	log.Println("Starting Blog")
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":6060", nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +50,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.New("index.tmpl.html")
 		tmpl, err = tmpl.ParseFiles("tmpl/index.tmpl.html")
 		if err != nil {
-			fmt.Println("ERROR: handler tmpl.ParseFiles", err)
+			log.Println("ERROR: handler tmpl.ParseFiles", err)
 		}
 		tmpl.Execute(w, posts)
 		blogCount++
@@ -57,7 +61,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		posts := getPosts()
 
-		var requestedPost int
+		var requestedPost = -1
 		for i, p := range posts {
 			a := p.Address
 			_, b := filepath.Split(strings.ToLower(r.URL.Path[1:]))
@@ -66,10 +70,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
+		if requestedPost == -1 {
+			log.Println("unknown page request:", r.URL.Path[1:])
+			fmt.Fprintf(w, "%v\n", "<p>unknown page request</p><p><a href=http://blog.pg-h.io/>Back</a></p>")
+			return
+		}
+
 		t := template.New("post.tmpl.html")
 		t, err = t.ParseFiles("tmpl/post.tmpl.html")
 		if err != nil {
-			fmt.Println("ERROR: t.ParseFiles", err)
+			log.Println("ERROR: t.ParseFiles", err)
 		}
 
 		t.Execute(w, posts[requestedPost])
@@ -81,12 +91,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func getPosts() []Post {
 	a := []Post{}
 	files := getPathsWMarkdownFiles("posts")
+	sort.Sort(sort.Reverse(sort.StringSlice(files)))
 	// fmt.Println(files)
 	for _, fullpath := range files {
 
 		// get the post name
-		filename := filenameFromPath(fullpath)
-		// fmt.Println("DEV filename:", filename)
+		linkAddress := filenameFromPath(fullpath)
+		// fmt.Println("DEV filename:", linkAddress)
 
 		// get the title
 		title := titleFromFullpath(fullpath)
@@ -104,7 +115,7 @@ func getPosts() []Post {
 		body := bodyFromFile(fullpath)
 		// fmt.Println("DEV body:", body)
 
-		a = append(a, Post{title, date, summary, body, fullpath, filename})
+		a = append(a, Post{title, date, summary, body, fullpath, linkAddress})
 	}
 	return a
 }
@@ -118,7 +129,7 @@ func getPathsWMarkdownFiles(path string) []string {
 		return nil
 	})
 	if err != nil {
-		fmt.Printf("error walking the path %q: %v\n", path, err)
+		log.Printf("error walking the path %q: %v\n", path, err)
 	}
 
 	// from 'paths', get paths with .md in them, discard all others
@@ -135,6 +146,7 @@ func getPathsWMarkdownFiles(path string) []string {
 	return files
 }
 
+// filenameFromPath uses the filename to create the link address used.
 func filenameFromPath(fullpath string) string {
 	_, filename := filepath.Split(fullpath)
 	filename = strings.ToLower(strings.Replace(filename, ".md", "", -1))
@@ -145,6 +157,7 @@ func filenameFromPath(fullpath string) string {
 	return filename
 }
 
+// titleFromFullpath uses the path to create the title used in the blog post.
 func titleFromFullpath(fullpath string) string {
 	_, filename := filepath.Split(fullpath)
 	filename = strings.Replace(filename, ".md", "", -1)
@@ -156,9 +169,14 @@ func titleFromFullpath(fullpath string) string {
 	return filename
 }
 
-func prettyDateFromPath(pathWFile string) string {
-	dir, _ := filepath.Split(pathWFile)
-	splitDir := strings.Split(dir, "\\")
+// prettyDateFromPath uses the path to the file to create a date to use on the post, ie /2018/01/01/ = January 1, 2018.
+func prettyDateFromPath(fullpath string) string {
+	dir, _ := filepath.Split(fullpath)
+	splitAtString := "/"
+	if runtimeOS == "windows" {
+		splitAtString = "\\"
+	}
+	splitDir := strings.Split(dir, splitAtString)
 
 	// drop the first element which is posts
 	splitDir = append(splitDir[:0], splitDir[1:]...)
@@ -202,6 +220,7 @@ func prettyDateFromPath(pathWFile string) string {
 	return month + " " + day + ", " + year
 }
 
+// summaryFromFile opens the file, reads in the first line, and returns a string.
 func summaryFromFile(f string) string {
 	fileread, err := ioutil.ReadFile(f)
 	if err != nil {
@@ -211,10 +230,11 @@ func summaryFromFile(f string) string {
 	return string(lines[0])
 }
 
+// bodyFromFile opens the file, reads from the 3rd line down, blackfriday parses it, and returns a string.
 func bodyFromFile(f string) string {
 	fileread, err := ioutil.ReadFile(f)
 	if err != nil {
-		fmt.Println("ERROR: body ioutil.ReadFile", err)
+		log.Println("ERROR: body ioutil.ReadFile", err)
 	}
 	lines := strings.Split(string(fileread), "\n")
 	body := strings.Join(lines[2:len(lines)], "\n")

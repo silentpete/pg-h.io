@@ -32,12 +32,23 @@ Adding the Go executable to your Windows user PATH allows you to call `go` comma
 
 ## Set GOROOT
 
+As long as you let the installer place Go in it's default location:
+
+1. GOROOT should be added as an user environment variable. GOROOT=C:\Go\bin
+
 ## Set GOPATH
+
+GOPATH is your Go development area, if no GOPATH is defined it will use `%USERPROFILE%\go`
+
+1. Define your own GOPATH user environment variable if needed. GOROOT=%USERPROFILE%\go
 
 ## Check Go Out
 
+1. open a command prompt window
+1. type `go` or `go help`
+
 ## Automate the Install for Next Time
 
-```bat
-script here
+```powershell
+working a script to put here
 ```

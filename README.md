@@ -16,4 +16,5 @@ I am currently running this site on Linode.com. I am used to working with CentOS
 1. Install GIT
 1. Git clone ([https://github.com/silentpete/pg-h.io.git](https://github.com/silentpete/pg-h.io.git))
 1. Run the Prep Script
+    - the setup for alertmanager asks for gmail app settings.
 1. Run the Start Script

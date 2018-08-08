@@ -52,6 +52,9 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		case "pg --blog-metrics":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://blog.pg-h.io/metrics", http.StatusFound)
+		case "pg --cadvisor-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://cadvisor.pg-h.io/metrics", http.StatusFound)
 		case "pg --github":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "https://github.com/silentpete", http.StatusFound)
@@ -67,6 +70,12 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		case "pg -h":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "/", http.StatusFound)
+		case "pg --influxdb-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://influxdb.pg-h.io/metrics", http.StatusFound)
+		case "pg --node-exporter-metrics":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://node-exporter.pg-h.io/metrics", http.StatusFound)
 		case "pg --prometheus":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://prometheus.pg-h.io/", http.StatusFound)

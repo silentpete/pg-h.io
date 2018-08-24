@@ -1,6 +1,6 @@
 A basic overview of how to build a Go binary and run it in a Docker container. Three different examples included to demonstrate how it could be done: FROM golang, FROM alpine, FROM scratch.
 
-# Go (Hello World!) in a Docker Container
+# Go Hello World!
 
 After we have a working HTTP Go code example, how can we run it in a docker container?
 

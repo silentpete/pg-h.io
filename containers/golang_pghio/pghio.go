@@ -12,11 +12,11 @@ import (
 var (
 	pghioGetCount = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pghio_get_count",
-		Help: "pghio_get_count is the count of page requests to / sinse server started.",
+		Help: "is the count of page requests to / sinse server started.",
 	})
 	pghioPostCount = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pghio_post_count",
-		Help: "pghio_post_count is the count of posts to the command prompt sinse server started.",
+		Help: "is the count of posts to the command prompt sinse server started.",
 	})
 )
 

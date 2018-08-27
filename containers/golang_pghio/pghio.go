@@ -1,31 +1,49 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var pghioHitCount = 0
+var (
+	pghioGetCount = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "pghio_get_count",
+		Help: "pghio_get_count is the count of page requests to / sinse server started.",
+	})
+	pghioPostCount = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "pghio_post_count",
+		Help: "pghio_post_count is the count of posts to the command prompt sinse server started.",
+	})
+)
+
+func init() {
+	// Metrics have to be registered to be exposed:
+	prometheus.MustRegister(pghioGetCount)
+	prometheus.MustRegister(pghioPostCount)
+
+}
 
 func main() {
 	log.Println("Starting pg-h.io")
 	http.HandleFunc("/favicon.ico", favicon)
 	http.HandleFunc("/", pghio)
-	http.HandleFunc("/metrics", metrics)
+	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
 }
 
 func pghio(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
+		pghioGetCount.Inc()
 		tmpl := template.New("index.html")
 		tmpl, err := tmpl.ParseFiles("html/index.html")
 		if err != nil {
 			log.Println("ERROR: pghio tmpl.ParseFiles", err)
 		}
 		tmpl.Execute(w, "")
-		pghioHitCount++
 		// comes through the proxy, print IP proxied
 		if len(r.Header["X-Real-Ip"]) > 0 {
 			for _, ip := range r.Header["X-Real-Ip"] {
@@ -37,6 +55,7 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if r.Method == "POST" {
+		pghioPostCount.Inc()
 		r.ParseForm() // need to parse the form before interacting with form data
 		text := (r.Form["text"])[0]
 		switch text {
@@ -93,13 +112,6 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	}
-}
-
-func metrics(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "# HELP pghio_hit_count_total Total number of web requests to http://pg-h.io/")
-	fmt.Fprintln(w, "# TYPE pghio_hit_count_total counter")
-	m := fmt.Sprintf("pghio_hit_count_total %v", pghioHitCount)
-	fmt.Fprintf(w, m)
 }
 
 func favicon(w http.ResponseWriter, r *http.Request) {

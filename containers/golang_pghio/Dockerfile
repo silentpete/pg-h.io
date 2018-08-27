@@ -6,8 +6,7 @@ RUN \
   apk update \
   && apk add git
 
-# get the markdown parser
-# RUN go get -v github.com/russross/blackfriday
+RUN go get -v github.com/prometheus/client_golang/prometheus
 
 COPY $PWD /go/src/pghio
 

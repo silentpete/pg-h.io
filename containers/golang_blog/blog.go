@@ -1,7 +1,7 @@
 // REFERENCED: http://www.will3942.com/creating-blog-go
 // the gists are missing instantiation for the f and post in the else block, add ":" to each
 
-// Package blog is an http server hosting the blog area of pg-h.io.
+// Package blog is an http server hosting the blog area at blog.pg-h.io.
 package main
 
 import (
@@ -16,14 +16,26 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"gopkg.in/russross/blackfriday.v2"
 )
 
 // blog scope variables
 // TODO: add debug switch
-var err error
-var blogCount int
-var runtimeOS string
+var (
+	err                    error
+	runtimeOS              string
+	pghioBlogHitCountTotal = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "pghio_blog_hit_count_total",
+		Help: "is the count of page requests to / sinse server started.",
+	})
+)
+
+func init() {
+	// Metrics have to be registered to be exposed:
+	prometheus.MustRegister(pghioBlogHitCountTotal)
+}
 
 // Post structure
 type Post struct {
@@ -39,12 +51,15 @@ func main() {
 	// check environment OS
 	runtimeOS = runtime.GOOS
 
-	log.Println("Starting Blog")
-	http.HandleFunc("/", handler)
+	log.Println("starting blog...")
+	http.HandleFunc("/", blog)
+	http.HandleFunc("/favicon.ico", favicon)
+	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func blog(w http.ResponseWriter, r *http.Request) {
+	pghioBlogHitCountTotal.Inc()
 	if r.URL.Path[1:] == "" {
 		posts := getPosts()
 		tmpl := template.New("index.tmpl.html")
@@ -53,11 +68,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			log.Println("ERROR: handler tmpl.ParseFiles", err)
 		}
 		tmpl.Execute(w, posts)
-		blogCount++
-	} else if r.URL.Path[1:] == "metrics" {
-		fmt.Fprintf(w, "pghio_blog_hits_count_total %v\n", blogCount)
-	} else if r.URL.Path[1:] == "favicon.ico" {
-		http.ServeFile(w, r, "imgs/favicon.ico")
 	} else {
 		posts := getPosts()
 
@@ -83,8 +93,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		t.Execute(w, posts[requestedPost])
-		blogCount++
 	}
+	logPageRequest(*r)
+}
+
+// favicon is the handler used for requests /favicon.ico.
+func favicon(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "imgs/favicon.ico")
 }
 
 // getPosts creates and returns a slice of Posts from md files under the posts directory.
@@ -239,4 +254,16 @@ func bodyFromFile(f string) string {
 	lines := strings.Split(string(fileread), "\n")
 	body := strings.Join(lines[2:len(lines)], "\n")
 	return string(blackfriday.Run([]byte(body)))
+}
+
+// logPageRequest is used for logging who requests what page.
+func logPageRequest(r http.Request) {
+	if len(r.Header["X-Real-Ip"]) > 0 {
+		for _, ip := range r.Header["X-Real-Ip"] {
+			log.Println(ip, "requested", r.RequestURI)
+		}
+	} else {
+		// doesn't come through the proxy
+		log.Println(r.RemoteAddr, "requested", r.RequestURI)
+	}
 }

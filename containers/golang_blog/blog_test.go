@@ -19,7 +19,7 @@ func TestBlogHandler(t *testing.T) {
 	// fmt.Println("new response recorder\n#####\n", rr, "\n#####\n")
 
 	// the handler is from blog.go
-	blogHandler := http.HandlerFunc(handler)
+	blogHandler := http.HandlerFunc(blog)
 	// fmt.Println("the blog handler\n#####\n", blogHandler, "\n#####\n")
 
 	// Server up the HTTP, this will call the request and write the response to the recorder.

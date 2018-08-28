@@ -1,7 +1,10 @@
 # Create the Go binary
 FROM golang as binaryBuilder
 # get the markdown parser
-RUN go get -v gopkg.in/russross/blackfriday.v2
+RUN \
+  go get -v gopkg.in/russross/blackfriday.v2 \
+  && go get -v github.com/prometheus/client_golang/prometheus
+
 WORKDIR /go/src/app
 COPY $PWD/blog.go .
 RUN env GOOS=linux GOARCH=386 go build -v -o blog blog.go

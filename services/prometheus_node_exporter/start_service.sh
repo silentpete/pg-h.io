@@ -24,5 +24,5 @@ if [[ $(ps -ef | grep -v grep | grep -c prometheus_node_exporter) > 0 ]]; then
 fi
 
 info "starting prometheus node exporter"
-${CWD}/prometheus_node_exporter --log.level="info" --log.format="logger:syslog?appname=node-exporter&local=7" &> /dev/null &
+${CWD}/prometheus_node_exporter --collector.logind --collector.systemd --log.level="info" --log.format="logger:syslog?appname=node-exporter&local=7" &> /dev/null &
 echo -e "$!" > "${CWD}/${pid_file}"

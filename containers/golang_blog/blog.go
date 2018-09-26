@@ -252,7 +252,7 @@ func bodyFromFile(f string) string {
 		log.Println("ERROR: body ioutil.ReadFile", err)
 	}
 	lines := strings.Split(string(fileread), "\n")
-	body := strings.Join(lines[2:len(lines)], "\n")
+	body := strings.Join(lines[2:], "\n")
 	return string(blackfriday.Run([]byte(body)))
 }
 

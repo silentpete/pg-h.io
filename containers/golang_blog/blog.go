@@ -28,7 +28,7 @@ var (
 	runtimeOS              string
 	pghioBlogHitCountTotal = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pghio_blog_hit_count_total",
-		Help: "is the count of page requests to / sinse server started.",
+		Help: "is the count of page requests to / since server started.",
 	})
 )
 

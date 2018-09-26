@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/silentpete/pg-h.io)](https://goreportcard.com/report/github.com/silentpete/pg-h.io)
+
 # pg-h.io
 
 ## why pg-h.io?

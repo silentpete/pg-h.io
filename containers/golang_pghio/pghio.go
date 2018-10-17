@@ -14,6 +14,10 @@ var (
 		Name: "pghio_get_count",
 		Help: "is the count of page requests to / since server started.",
 	})
+	pghioPrivacyGetCount = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "pghio_privacy_get_count",
+		Help: "is the count of page requests to /privacy.html since server started.",
+	})
 	pghioPostCount = prometheus.NewCounter(prometheus.CounterOpts{
 		Name: "pghio_post_count",
 		Help: "is the count of posts to the command prompt since server started.",
@@ -30,6 +34,7 @@ func init() {
 func main() {
 	log.Println("Starting pg-h.io")
 	http.HandleFunc("/favicon.ico", favicon)
+	http.HandleFunc("/privacy.html", privacy)
 	http.HandleFunc("/", pghio)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
@@ -116,4 +121,23 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "imgs/favicon.ico")
+}
+
+func privacy(w http.ResponseWriter, r *http.Request) {
+	pghioPrivacyGetCount.Inc()
+	tmpl := template.New("privacy.html")
+	tmpl, err := tmpl.ParseFiles("html/privacy.html")
+	if err != nil {
+		log.Println("ERROR: pghio privicy tmpl.ParseFiles", err)
+	}
+	tmpl.Execute(w, "")
+	// comes through the proxy, print IP proxied
+	if len(r.Header["X-Real-Ip"]) > 0 {
+		for _, ip := range r.Header["X-Real-Ip"] {
+			log.Println(ip, "requested", r.RequestURI)
+		}
+	} else {
+		// doesn't come through the proxy
+		log.Println(r.RemoteAddr, "requested", r.RequestURI)
+	}
 }

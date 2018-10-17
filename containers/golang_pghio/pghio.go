@@ -100,6 +100,9 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		case "pg --node-exporter-metrics":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://node-exporter.pg-h.io/metrics", http.StatusFound)
+		case "pg --privacy":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "http://pg-h.io/privacy.html", http.StatusFound)
 		case "pg --prometheus":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://prometheus.pg-h.io/", http.StatusFound)

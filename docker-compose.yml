@@ -21,6 +21,7 @@ services:
     container_name: pghio
     hostname: pghio
     volumes:
+      - $PWD/containers/golang_pghio/files/:/opt/pghio/files/:ro
       - $PWD/containers/golang_pghio/html/:/opt/pghio/html/:ro
       - $PWD/containers/golang_pghio/imgs/:/opt/pghio/imgs/:ro
       - /etc/localtime:/etc/localtime:ro
@@ -33,6 +34,7 @@ services:
     container_name: blog
     hostname: blog
     volumes:
+      - $PWD/containers/golang_blog/files/:/opt/blog/files/:ro
       - $PWD/containers/golang_blog/imgs/:/opt/blog/imgs/:ro
       - $PWD/containers/golang_blog/posts/:/opt/blog/posts/:ro
       - $PWD/containers/golang_blog/tmpl/:/opt/blog/tmpl/:ro

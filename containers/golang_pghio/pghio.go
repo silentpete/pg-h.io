@@ -138,7 +138,7 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 // sitemap is the handler used for requests to /sitemap.txt
 func sitemap(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "files/sitemap.txt")
-	logPageRequest(r)
+	logRequestInfo(r)
 }
 
 func google(w http.ResponseWriter, r *http.Request) {

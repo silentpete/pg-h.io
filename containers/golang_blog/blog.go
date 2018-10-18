@@ -54,6 +54,7 @@ func main() {
 	log.Println("starting blog...")
 	http.HandleFunc("/", blog)
 	http.HandleFunc("/favicon.ico", favicon)
+	http.HandleFunc("/google776b578cc5a81cc0.html", google)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
 }
@@ -94,12 +95,19 @@ func blog(w http.ResponseWriter, r *http.Request) {
 
 		t.Execute(w, posts[requestedPost])
 	}
-	logPageRequest(*r)
+	logPageRequest(r)
 }
 
 // favicon is the handler used for requests /favicon.ico.
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "imgs/favicon.ico")
+	logPageRequest(r)
+}
+
+// google is the handler used for requests /google776b578cc5a81cc0.html
+func google(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "google-site-verification: google776b578cc5a81cc0.html")
+	logPageRequest(r)
 }
 
 // getPosts creates and returns a slice of Posts from md files under the posts directory.
@@ -257,7 +265,7 @@ func bodyFromFile(f string) string {
 }
 
 // logPageRequest is used for logging who requests what page.
-func logPageRequest(r http.Request) {
+func logPageRequest(r *http.Request) {
 	if len(r.Header["X-Real-Ip"]) > 0 {
 		for _, ip := range r.Header["X-Real-Ip"] {
 			log.Println(ip, "requested", r.RequestURI)

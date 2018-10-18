@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -27,6 +28,7 @@ var (
 func init() {
 	// Metrics have to be registered to be exposed:
 	prometheus.MustRegister(pghioGetCount)
+	prometheus.MustRegister(pghioPrivacyGetCount)
 	prometheus.MustRegister(pghioPostCount)
 
 }
@@ -35,6 +37,7 @@ func main() {
 	log.Println("Starting pg-h.io")
 	http.HandleFunc("/favicon.ico", favicon)
 	http.HandleFunc("/privacy.html", privacy)
+	http.HandleFunc("/google776b578cc5a81cc0.html", google)
 	http.HandleFunc("/", pghio)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
@@ -49,15 +52,7 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 			log.Println("ERROR: pghio tmpl.ParseFiles", err)
 		}
 		tmpl.Execute(w, "")
-		// comes through the proxy, print IP proxied
-		if len(r.Header["X-Real-Ip"]) > 0 {
-			for _, ip := range r.Header["X-Real-Ip"] {
-				log.Println(ip, "requested", r.RequestURI)
-			}
-		} else {
-			// doesn't come through the proxy
-			log.Println(r.RemoteAddr, "requested", r.RequestURI)
-		}
+		logRequestInfo(r)
 	}
 	if r.Method == "POST" {
 		pghioPostCount.Inc()
@@ -122,8 +117,26 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func logRequestInfo(r *http.Request) {
+	// comes through the proxy, print IP proxied
+	if len(r.Header["X-Real-Ip"]) > 0 {
+		for _, ip := range r.Header["X-Real-Ip"] {
+			log.Println(ip, "requested", r.RequestURI)
+		}
+	} else {
+		// doesn't come through the proxy
+		log.Println(r.RemoteAddr, "requested", r.RequestURI)
+	}
+}
+
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "imgs/favicon.ico")
+	logRequestInfo(r)
+}
+
+func google(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "google-site-verification: google776b578cc5a81cc0.html")
+	logRequestInfo(r)
 }
 
 func privacy(w http.ResponseWriter, r *http.Request) {
@@ -134,13 +147,5 @@ func privacy(w http.ResponseWriter, r *http.Request) {
 		log.Println("ERROR: pghio privicy tmpl.ParseFiles", err)
 	}
 	tmpl.Execute(w, "")
-	// comes through the proxy, print IP proxied
-	if len(r.Header["X-Real-Ip"]) > 0 {
-		for _, ip := range r.Header["X-Real-Ip"] {
-			log.Println(ip, "requested", r.RequestURI)
-		}
-	} else {
-		// doesn't come through the proxy
-		log.Println(r.RemoteAddr, "requested", r.RequestURI)
-	}
+	logRequestInfo(r)
 }

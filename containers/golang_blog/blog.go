@@ -55,6 +55,7 @@ func main() {
 	http.HandleFunc("/", blog)
 	http.HandleFunc("/favicon.ico", favicon)
 	http.HandleFunc("/google776b578cc5a81cc0.html", google)
+	http.HandleFunc("/sitemap.txt", sitemap)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
 }
@@ -101,6 +102,12 @@ func blog(w http.ResponseWriter, r *http.Request) {
 // favicon is the handler used for requests /favicon.ico.
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "imgs/favicon.ico")
+	logPageRequest(r)
+}
+
+// sitemap is the handler used for requests to /sitemap.txt
+func sitemap(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "files/sitemap.txt")
 	logPageRequest(r)
 }
 

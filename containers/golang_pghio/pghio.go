@@ -38,6 +38,7 @@ func main() {
 	http.HandleFunc("/favicon.ico", favicon)
 	http.HandleFunc("/privacy.html", privacy)
 	http.HandleFunc("/google776b578cc5a81cc0.html", google)
+	http.HandleFunc("/sitemap.txt", sitemap)
 	http.HandleFunc("/", pghio)
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":80", nil)
@@ -132,6 +133,12 @@ func logRequestInfo(r *http.Request) {
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "imgs/favicon.ico")
 	logRequestInfo(r)
+}
+
+// sitemap is the handler used for requests to /sitemap.txt
+func sitemap(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "files/sitemap.txt")
+	logPageRequest(r)
 }
 
 func google(w http.ResponseWriter, r *http.Request) {

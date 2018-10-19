@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>pg --blog</title>
+    <meta name="description" content="my site is dedicated to sharing as I learn new interests: Go/golang, docker, prometheus, grafana and a growing list."/>
+  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    article {
+      padding: 1%;
+      overflow: hidden;
+      text-align: center;
+    }
+  </style>
+  <body link="black" vlink="black">
+    <article>
+      {{range .}}
+        <a href="/{{.Address}}"><h2>{{.Title}}</h2></a>
+        ({{.Date}})
+        <hr>
+        <p>{{.Summary}}</p>
+        <br><br>
+      {{end}}
+    </article>
+  </body>
+</html>

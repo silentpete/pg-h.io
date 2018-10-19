@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>pg --blog</title>
+  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    pre {
+      display: block;
+      font-family: monospace;
+      white-space: pre-wrap;
+      background-color:lightgray;
+      padding: 1em;
+    }
+    article {
+      padding: 1%;
+      overflow: hidden;
+    }
+    footer {
+      padding: 1em;
+  }
+  </style>
+  <body>
+    <article>
+      <h2>{{.Title}}</h2>
+      <h3>{{.Date}}</h3>
+      <p>{{.Body}}</p>
+      <footer><a href=http://blog.pg-h.io>Back</a></footer>
+    </article>
+  </body>
+</html>

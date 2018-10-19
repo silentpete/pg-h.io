@@ -61,13 +61,25 @@ func main() {
 }
 
 func blog(w http.ResponseWriter, r *http.Request) {
+
+	mobileUserAgentCheck1 := r.UserAgent()
+
 	pghioBlogHitCountTotal.Inc()
 	if r.URL.Path[1:] == "" {
 		posts := getPosts()
 		tmpl := template.New("index.tmpl.html")
-		tmpl, err = tmpl.ParseFiles("tmpl/index.tmpl.html")
-		if err != nil {
-			log.Println("ERROR: handler tmpl.ParseFiles", err)
+
+		if strings.Contains(mobileUserAgentCheck1, "Android") {
+			log.Println("apply mobile")
+			tmpl, err = tmpl.ParseFiles("tmpl/m/index.tmpl.html")
+			if err != nil {
+				log.Println("ERROR: handler tmpl.ParseFiles", err)
+			}
+		} else {
+			tmpl, err = tmpl.ParseFiles("tmpl/index.tmpl.html")
+			if err != nil {
+				log.Println("ERROR: handler tmpl.ParseFiles", err)
+			}
 		}
 		tmpl.Execute(w, posts)
 	} else {
@@ -89,9 +101,17 @@ func blog(w http.ResponseWriter, r *http.Request) {
 		}
 
 		t := template.New("post.tmpl.html")
-		t, err = t.ParseFiles("tmpl/post.tmpl.html")
-		if err != nil {
-			log.Println("ERROR: t.ParseFiles", err)
+		if strings.Contains(mobileUserAgentCheck1, "Android") {
+			log.Println("apply mobile")
+			t, err = t.ParseFiles("tmpl/m/post.tmpl.html")
+			if err != nil {
+				log.Println("ERROR: t.ParseFiles", err)
+			}
+		} else {
+			t, err = t.ParseFiles("tmpl/post.tmpl.html")
+			if err != nil {
+				log.Println("ERROR: t.ParseFiles", err)
+			}
 		}
 
 		t.Execute(w, posts[requestedPost])

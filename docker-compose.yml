@@ -44,7 +44,7 @@ services:
       driver: "json-file"
 
   prometheus:
-    image: prom/prometheus:v2.4.2
+    image: prom/prometheus:v2.4.3
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -80,7 +80,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:5.2.4
+    image: grafana/grafana:5.3.1
     container_name: grafana
     hostname: grafana
     environment:
@@ -105,7 +105,7 @@ services:
     tty: true
 
   influxdb:
-    image: influxdb:1.6.3-alpine
+    image: influxdb:1.6.4-alpine
     container_name: influxdb
     hostname: influxdb
     environment:

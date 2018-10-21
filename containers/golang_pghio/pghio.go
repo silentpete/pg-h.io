@@ -105,6 +105,9 @@ func pghio(w http.ResponseWriter, r *http.Request) {
 		case "pg --prometheus-metrics":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "http://prometheus.pg-h.io/metrics", http.StatusFound)
+		case "pg --twitter":
+			log.Printf("success POST: \"%v\"\n", text)
+			http.Redirect(w, r, "https://twitter.com/PeterGallerani", http.StatusFound)
 		case "pg --resume":
 			log.Printf("success POST: \"%v\"\n", text)
 			http.Redirect(w, r, "https://www.linkedin.com/in/petegallerani/", http.StatusFound)

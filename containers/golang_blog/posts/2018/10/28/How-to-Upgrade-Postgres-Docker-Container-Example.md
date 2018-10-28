@@ -111,7 +111,7 @@ I have tested this only a couple times. For example, with this process I was abl
 
 It is possible and not really that difficult to upgrade your postgres dockerized environment. I am hoping, like most of the community, that one day it will be built into the postgres container. Postgres is used by so many, that they may not want to take on that potential responsibility. Either way, it is possible.
 
-References:
+## References:
 
 - [https://hub.docker.com/u/atlassian/](https://hub.docker.com/u/atlassian/)
 - [https://hub.docker.com/r/atlassian/confluence-server/](https://hub.docker.com/r/atlassian/confluence-server/)

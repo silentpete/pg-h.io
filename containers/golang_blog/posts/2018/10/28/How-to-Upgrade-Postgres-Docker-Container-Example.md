@@ -92,7 +92,7 @@ Starting with a production dev environment, ready to screw up, we can start the 
 
 1. Start confluence
     ```
-    docker run -d --link=postgres -v /tmp/confluence-home:/var/atlassian/application-data/confluence --name="confluence" --log-driver=json-file -p 8090:8090 -p 8091:8091 docker.polarisalpha.com/atlassian/confluence-server
+    docker run -d --link=postgres -v /tmp/confluence-home:/var/atlassian/application-data/confluence --name="confluence" --log-driver=json-file -p 8090:8090 -p 8091:8091 atlassian/confluence-server
     ```
 
 1. Log into the application once it finishes loading to confirm upgrade.

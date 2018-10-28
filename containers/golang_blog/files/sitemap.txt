@@ -10,4 +10,5 @@ https://blog.pg-h.io/containerize-a-go-binary-example
 https://blog.pg-h.io/prometheus-alertmanager-webhook-sinatra-app-to-go-app
 https://blog.pg-h.io/sonarqube-my-go
 https://blog.pg-h.io/influxdb-overview-of-getting-data-into-a-database
+https://blog.pg-h.io/how-to-upgrade-postgres-docker-container-example
 https://blog.pg-h.io/

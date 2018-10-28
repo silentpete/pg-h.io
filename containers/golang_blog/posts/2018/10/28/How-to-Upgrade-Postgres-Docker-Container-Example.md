@@ -15,11 +15,11 @@ Once you have the environment up and running in production, you will have moved 
 - Linux
 - The application stack is running in a self-hosted/self-maintained/on promise environment.
 - Atlassian product talking to postgres database.
-- Database state/data can be stored on a volume mount to host or NAS. (my experience)
+- Database state/data can be stored on a volume mount to host or NAS.
 
 ## Process Overview
 
-Since the application talking to the postgres database is up and running, we just need to read the postgres docs on how to upgrade. Finding the recommended way of using pg_upgrade, which requires old and new data paths, old and new bin locations accessible.
+Since the application talking to the postgres database is up and running, we just need to read the postgres docs on how to upgrade. Finding the recommended way of using [pg_upgrade](https://www.postgresql.org/docs/9.6/static/pgupgrade.html), which requires old and new data paths, old and new bin locations accessible.
 
 Starting with a production dev environment, ready to screw up, we can start the process.
 
@@ -110,3 +110,10 @@ I have tested this only a couple times. For example, with this process I was abl
 ## Conclusion
 
 It is possible and not really that difficult to upgrade your postgres dockerized environment. I am hoping, like most of the community, that one day it will be built into the postgres container. Postgres is used by so many, that they may not want to take on that potential responsibility. Either way, it is possible.
+
+References:
+
+- [https://hub.docker.com/u/atlassian/](https://hub.docker.com/u/atlassian/)
+- [https://hub.docker.com/r/atlassian/confluence-server/](https://hub.docker.com/r/atlassian/confluence-server/)
+- [https://hub.docker.com/_/postgres/](https://hub.docker.com/_/postgres/)
+- [https://www.postgresql.org/docs/9.6/static/pgupgrade.html](https://www.postgresql.org/docs/9.6/static/pgupgrade.html)

@@ -34,19 +34,19 @@ Starting with a production dev environment, ready to screw up, we can start the 
 ## Demo Process with Confluence (9.5 -> 9.6)
 
 1. Start a postgres container
-    ```none
+    ```
     docker run -dt --name=postgres --hostname=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb --log-driver=json-file -v /tmp/pg-old-data/:/var/lib/postgresql/data/ postgres:9.5.7-alpine
     ```
 
 1. Start the Atlassian App (in example, notice linking to postgres)
-    ```none
+    ```
     docker run -d --link=postgres --name="confluence" -v /data/confluence-home:/var/atlassian/application-data/confluence --log-driver=json-file -p 8090:8090 -p 8091:8091 atlassian/confluence-server
     ```
 
 1. Complete the setup process to get the application fully up, running, and talking to the postgres database. Atlassian allows to use a Developers license, which you can get on the [my.atlassian](https://my.atlassian.com/product) page, under the product you are upgrading. Also, set up the sample data. Once you have logged into the application, (setup example site data potentially) we are able to stop the running containers, the application then postgres.
 
 1. Setup the environment needed to upgrade postgres.
-    ```none
+    ```
     sudo mkdir /tmp/pg-old-bin/
     sudo docker cp postgres:/usr/local/bin /tmp/pg-old-bin/
     sudo docker cp postgres:/usr/local/lib /tmp/pg-old-bin/
@@ -58,17 +58,17 @@ Starting with a production dev environment, ready to screw up, we can start the 
 1. Remove containers
 
 1. Start the new postgres container, notice we are interfering with the postgres service starting.
-    ```none
+    ```
     docker run -dt --entrypoint=bash --user=postgres --name=postgres --hostname=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb --log-driver=json-file -v /tmp/pg-old-bin/:/tmp/pg-old-bin/ -v /tmp/pg-old-data/:/tmp/pg-old-data/ -v /tmp/pg-new-data/:/var/lib/postgresql/data/ postgres:9.6.10-alpine
     ```
 
 1. Set permissions on the postgres data
-    ```none
+    ```
     sudo chown 70:70 -R /tmp/pg-new-data/
     ```
 
 1. Docker exec into postgres container to setup the database and then upgrade
-    ```none
+    ```
     docker exec -it postgres bash
     cd /tmp
     pg_ctl initdb --pgdata=/var/lib/postgresql/data/;
@@ -80,18 +80,18 @@ Starting with a production dev environment, ready to screw up, we can start the 
     Should get "Upgrade Complete"
 
 1. After the successful upgrade, you can stop and remove the container
-    ```none
+    ```
     docker stop postgres
     docker rm postges
     ```
 
 1. Start postgres normally looking at the new data.
-    ```none
+    ```
     docker run -dt --name=postgres --hostname=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb --log-driver=json-file -v /tmp/pg-new-data/:/var/lib/postgresql/data/ postgres:9.6.10-alpine
     ```
 
 1. Start confluence
-    ```none
+    ```
     docker run -d --link=postgres -v /tmp/confluence-home:/var/atlassian/application-data/confluence --name="confluence" --log-driver=json-file -p 8090:8090 -p 8091:8091 docker.polarisalpha.com/atlassian/confluence-server
     ```
 

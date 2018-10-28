@@ -19,17 +19,17 @@ Get the code:
 Once the SonarQube repo has been cloned, the following commands will get the environment prepped.
 
 1. Build the containers needed in the environment.
-    ```none
+    ```
     ./build_containers.sh
     ```
 
 1. Start SonarQube.
-    ```none
+    ```
     docker-compose up -d
     ```
 
 1. Start a SonarScanner in the directory of your choosing. For example, I checked out [https://github.com/prometheus/prometheus](https://github.com/prometheus/prometheus), change directories to the ../prometheus/prometheus, and then ran the following:
-    ```none
+    ```
     docker run -dt --rm --name=sonarscanner -e PROJECTKEY="${PWD##*/}" -v $PWD/:/src/ --network=sonarqube_lan --log-driver=json-file sonarqube_scanner:latest; docker logs -f sonarscanner
     ```
 
@@ -50,11 +50,11 @@ On the top bar, you can navigate quickly through Issues, Rules, Quality Profiles
 Once you have checked your code and feel done with the quality scans, you can clean up your development environment. By running the docker compose down command, it will stop and remove the containers that were brought up. All state is kept in the containers, so after 'downing' the compose stack, no data should be left in your environment.
 
 1. Remove the running compose environment.
-    ```none
+    ```
     docker-compose down
     ```
 
 1. If you would like a little cleaner.
-    ```none
+    ```
     docker system prune -a -f
     ```

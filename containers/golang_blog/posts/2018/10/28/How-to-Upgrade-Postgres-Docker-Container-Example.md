@@ -97,6 +97,11 @@ Starting with a production dev environment, ready to screw up, we can start the 
 
 1. Log into the application once it finishes loading to confirm upgrade.
 
+1. If postgres is giving a access error, have to edit the pg_hba.conf.
+    ```
+    echo -e "\nhost all all all md5" >> /var/lib/postgresql/data/pg_hba.conf
+    ```
+
 ## Notes
 
 ### Docker PostgreSQL Process (9.2 -> 9.6)

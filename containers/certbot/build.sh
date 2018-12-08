@@ -1,9 +1,11 @@
 #!/bin/sh
+
 # References
 # https://certbot.eff.org/docs/
 # https://hub.docker.com/r/certbot/certbot/
 # https://www.digitalocean.com/community/questions/tutorial-for-let-s-encrypt-wildcard
 
+# Get the directory of the script being executed, and then move there.
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ $(ls -1 ../nginx/certs/ | wc -l) -eq 0 ]]; then

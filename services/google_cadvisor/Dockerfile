@@ -1,11 +1,11 @@
-FROM golang:1.10
+FROM golang:1.11
 
 # RUN go get -v github.com/google/cadvisor
 RUN \
   mkdir -p ${GOPATH}/src/github.com/google
 RUN \
   cd ${GOPATH}/src/github.com/google/ \
-  && git clone --depth 1 http://github.com/google/cadvisor.git -b release-v0.29
+  && git clone --depth 1 http://github.com/google/cadvisor.git -b release-v0.32
 
 RUN \
   cd ${GOPATH}/src/github.com/google/cadvisor/ \

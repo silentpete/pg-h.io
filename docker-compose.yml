@@ -9,7 +9,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - $PWD/containers/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - $PWD/containers/nginx/${DEV}nginx.conf:/etc/nginx/nginx.conf:ro
       - $PWD/containers/nginx/certs:/opt/certs:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
@@ -44,7 +44,7 @@ services:
       driver: "json-file"
 
   prometheus:
-    image: prom/prometheus:v2.6.0
+    image: prom/prometheus:v2.5.0
     container_name: prometheus
     hostname: prometheus
     volumes:

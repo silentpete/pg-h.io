@@ -2,13 +2,13 @@
 
 # TODO: remove repeated function into function file and source the file
 function info () {
-  echo -e "\e[32mINFO: $1\e[0m"
+  echo -e "\e[32mINFO: $@\e[0m"
 }
 function warn () {
-  echo -e "\e[33mWARN: $1\e[0m"
+  echo -e "\e[33mWARN: $@\e[0m"
 }
 function error () {
-  echo -e "\e[31mERROR: $1\e[0m"
+  echo -e "\e[31mERROR: $@\e[0m"
 }
 
 info "starting environment"

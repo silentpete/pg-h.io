@@ -9,6 +9,7 @@ function warn () {
 }
 function error () {
   echo -e "\e[31mERROR: $@\e[0m"
+  exit 1
 }
 
 info "starting environment"

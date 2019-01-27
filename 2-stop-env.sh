@@ -9,6 +9,7 @@ function warn () {
 }
 function error () {
   echo -e "\e[31mERROR: $@\e[0m"
+  exit 1
 }
 
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -17,6 +18,8 @@ CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 pid_file="pid"
 
 info "stopping environment"
+docker-compose stop
+docker ps -a
 docker-compose down
 # Run all stop_service.sh files
 for VAR in $(find . -type f -name "stop_service.sh"); do info "running ${VAR}"; ${VAR}; done;

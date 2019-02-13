@@ -58,6 +58,8 @@ services:
       - '--log.level=info'
       # prometheus retention period
       - '--storage.tsdb.retention=30d'
+      # allow reload endpoint
+      #- '--web.enable-lifecycle'
     logging:
       driver: "json-file"
     mem_limit: 512m

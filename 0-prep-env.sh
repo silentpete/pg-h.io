@@ -1,15 +1,15 @@
 #!/bin/sh
 
 function info() {
-  echo -e "\e[32mINFO: $@\e[0m"
+  echo -e "\e[32m$(date --rfc-3339='seconds') INFO: $@\e[0m"
 }
 
 function warn() {
-  echo -e "\e[33mWARN: $@\e[0m"
+  echo -e "\e[33m$(date --rfc-3339='seconds') WARN: $@\e[0m"
 }
 
 function error() {
-  echo -e "\e[31mERROR: $@\e[0m"
+  echo -e "\e[31m$(date --rfc-3339='seconds') ERROR: $@\e[0m"
   exit 1
 }
 

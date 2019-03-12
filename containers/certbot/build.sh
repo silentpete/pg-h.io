@@ -7,8 +7,11 @@
 
 # Get the directory of the script being executed, and then move there.
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $CWD
 
-if [[ $(ls -1 ../nginx/certs/ | wc -l) -eq 0 ]]; then
+certs_already_generated=$(ls -1 ../nginx/certs/ | wc -l)
+
+if [[ ${certs_already_generated} -eq 0 ]]; then
   if [[ -z "${GMAIL_ACCOUNT}" ]]; then
     echo "What is your email address that should be used for letsencrypt?"
     read GMAIL_ACCOUNT
@@ -22,4 +25,6 @@ if [[ $(ls -1 ../nginx/certs/ | wc -l) -eq 0 ]]; then
     error "certbot failed"
   fi
   cp etc/letsencrypt/live/pg-h.io/* ../nginx/certs/
+else
+  info "certs already generated"
 fi

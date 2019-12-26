@@ -1,6 +1,6 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/silentpete/pg-h.io)](https://goreportcard.com/report/github.com/silentpete/pg-h.io)
-
 # pg-h.io
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/silentpete/pg-h.io)](https://goreportcard.com/report/github.com/silentpete/pg-h.io)
 
 ## Why pg-h.io?
 
@@ -17,24 +17,32 @@ I have always wanted to help others and I love what I do for work everyday. I wo
     [https://github.com/silentpete/vagrant-box-process-centos](https://github.com/silentpete/vagrant-box-process-centos)
 
 1. Edit hosts file
+
     ```none
     127.0.0.1 pg-h.io prometheus.pg-h.io alertmanager.pg-h.io blog.pg-h.io cadvisor.pg-h.io grafana.pg-h.io influxdb.pg-h.io node-exporter.pg-h.io
     ```
 
 1. Once in Vagrant host, install git
+
     ```none
     yum install -y git
     ```
+
 1. Git clone repo
+
     ```none
     git clone https://github.com/silentpete/pg-h.io.git
     ```
+
 1. Run the Prep Script
+
     ```none
     ./0-prep-env.sh
     ```
+
     - the setup for alertmanager asks for gmail app settings.
 1. Run the Start Script with the DEV switch. This will give nginx a different configuration.
+
     ```none
     DEV="nossl." ./1-start-env.sh
     ```
@@ -45,19 +53,26 @@ I am currently running this site on Linode.com. I am used to working with CentOS
 
 1. Stand up Linode Host and SSH in
 1. Install git
+
     ```none
     yum install -y git
     ```
+
 1. Git clone repo
+
     ```none
     git clone https://github.com/silentpete/pg-h.io.git
     ```
+
 1. Run the Prep Script
+
     ```none
     ./0-prep-env.sh
     ```
+
     - the setup for alertmanager asks for gmail app settings.
 1. Run the Start Script
+
     ```none
     ./1-start-env.sh
     ```

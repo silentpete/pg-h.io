@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1.13
 
 RUN go get -v github.com/prometheus/node_exporter
 

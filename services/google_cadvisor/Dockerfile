@@ -1,4 +1,4 @@
-FROM golang:1.11
+FROM golang:1.13
 
 # RUN go get -v github.com/google/cadvisor
 RUN \

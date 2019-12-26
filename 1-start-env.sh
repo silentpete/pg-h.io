@@ -1,20 +1,36 @@
 #!/bin/sh
 
 # TODO: remove repeated function into function file and source the file
-function info () {
-  echo -e "\e[32m$(date --rfc-3339='seconds') INFO: $@\e[0m"
+# debug_msg: pass in arguments and they will all print in cyan.
+function debug_msg() {
+  if [[ ${MSG_LEVEL} == "debug" ]]; then
+    echo -e "\e[36mtime=\"$(date --rfc-3339='seconds')\" level=DEBUG msg=\"${@}\"\e[0m"
+  fi
 }
-function warn () {
-  echo -e "\e[33m$(date --rfc-3339='seconds') WARN: $@\e[0m"
+
+# info_msg: pass in arguments and they will all print in green.
+function info_msg() {
+  if [[ ${MSG_LEVEL} == "debug" || ${MSG_LEVEL} == "info" ]]; then
+    echo -e "\e[32mtime=\"$(date --rfc-3339='seconds')\" level=INFO msg=\"${@}\"\e[0m"
+  fi
 }
-function error () {
-  echo -e "\e[31m$(date --rfc-3339='seconds') ERROR: $@\e[0m"
+
+# warn_msg: pass in arguments and they will all print in yellow.
+function warn_msg() {
+  if [[ ${MSG_LEVEL} == "debug" || ${MSG_LEVEL} == "info" || ${MSG_LEVEL} == "warn" ]]; then
+    echo -e "\e[33mtime=\"$(date --rfc-3339='seconds')\" level=WARN msg=\"${@}\"\e[0m"
+  fi
+}
+
+# error_msg: pass in arguments and they will all print in red, then the script will exit 1.
+function error_msg() {
+  echo -e "\e[31mtime=\"$(date --rfc-3339='seconds')\" level=ERROR msg=\"${@}\"\e[0m"
   exit 1
 }
 
-info "starting environment"
+info_msg "starting environment"
 
 # Run all start_service.sh files
-for VAR in $(find . -type f -name "start_service.sh"); do info "running ${VAR}"; ${VAR}; done;
+for VAR in $(find . -type f -name "start_service.sh"); do info_msg "running ${VAR}"; ${VAR}; done;
 
 docker-compose up -d
